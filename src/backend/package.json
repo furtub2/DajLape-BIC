@@ -4,5 +4,10 @@
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "be-build": "tsc -p tsconfig.json",
+    "be-dev": "npx ts-node src/backend/index.ts",
+    "be-start": "node dist/backend/index.js"
   }
 }
