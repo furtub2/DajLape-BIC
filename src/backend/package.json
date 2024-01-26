@@ -7,7 +7,7 @@
   },
   "scripts": {
     "be-build": "tsc -p tsconfig.json",
-    "be-dev": "npx ts-node src/backend/index.ts",
+    "be-dev": "npx nodemon src/backend/index.ts",
     "be-start": "node dist/backend/index.js"
   }
 }
