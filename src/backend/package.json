@@ -9,8 +9,8 @@
   },
   "scripts": {
     "be-build": "tsc -p tsconfig.json",
-    "be-dev": "npx nodemon src/backend/index.ts",
-    "be-start": "node dist/backend/index.js"
+    "be-dev": "npx nodedemon backend/src/index.ts",
+    "be-start": "node src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
