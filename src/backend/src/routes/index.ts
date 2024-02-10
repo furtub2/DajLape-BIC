@@ -1,4 +1,5 @@
 import express from 'express'
+import adminRoutes from './adminRoutes'
 
 const router = express.Router()
 // middleware
@@ -10,5 +11,7 @@ next() })
 router.get('/', (req, res) => {
     res.send('Simple Home Page - Server is working')
 })
+
+router.use('/admin', adminRoutes);
 
 export default router
