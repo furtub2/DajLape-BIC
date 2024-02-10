@@ -5,9 +5,10 @@ const router = express.Router()
 router.use((req, res, next) => {
     console.log('Time: ', Date.now())
 next() })
+
 // home page route
 router.get('/', (req, res) => {
-    res.send('Example home page')
+    res.send('Simple Home Page - Server is working')
 })
 
 export default router
