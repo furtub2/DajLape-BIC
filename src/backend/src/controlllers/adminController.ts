@@ -19,6 +19,16 @@ export const createUser = async (req: Request, res: Response) => {
 
     const { email, password, role } = value;
 
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email is already in use.' });
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
