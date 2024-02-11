@@ -1,13 +1,8 @@
 import { Request, Response } from 'express';
 import { prisma } from '../database';
+import { offerSchema } from '../validationSchemas';
+import { userSchema } from '../validationSchemas';
 import bcrypt from 'bcryptjs';
-import Joi from 'joi';
-
-const userSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-  role: Joi.string().valid('admin', 'user', 'shelter').required(),
-});
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -44,5 +39,34 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(userWithoutPassword);
   } catch (error: any) {
     res.status(500).json({ message: 'Error creating user', error: error.message });
+  }
+};
+
+export const createOffer = async (req: Request, res: Response) => {
+  try {
+    const { value, error } = offerSchema.validate(req.body, { abortEarly: false });
+
+    if (error) {
+      return res.status(400).json({ message: 'Validation error', details: error.details });
+    }
+
+    const { image, petName, age, description, petType, localization, breeds, shelterId } = value;
+
+    const offer = await prisma.offer.create({
+      data: {
+        image,
+        petName,
+        age,
+        description,
+        petType,
+        localization,
+        breeds,
+        shelterId,
+      },
+    });
+
+    res.status(201).json(offer);
+  } catch (error: any) {
+    res.status(500).json({ message: 'Error creating offer', error: error.message });
   }
 };
