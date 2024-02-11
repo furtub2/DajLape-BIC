@@ -1,12 +1,23 @@
 import { Request, Response } from 'express';
 import { prisma } from '../database';
 import bcrypt from 'bcryptjs';
+import Joi from 'joi';
+
+const userSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  role: Joi.string().valid('admin', 'user', 'shelter').required(),
+});
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { email, password, role } = req.body;
+    const { value, error } = userSchema.validate(req.body, { abortEarly: false });
 
-    // Tu dodać walidajcę ----
+    if (error) {
+      return res.status(400).json({ message: 'Validation error', details: error.details });
+    }
+
+    const { email, password, role } = value;
 
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
