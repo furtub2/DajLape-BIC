@@ -9,6 +9,12 @@ const routes: RouteRecordRaw[] = [
 
   // Always leave this as last one,
   // but you can also remove it
+
+  {
+    path: '/:LoginPageVue',
+    component: () => import('pages/LoginPageVue.vue')
+  },
+
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
