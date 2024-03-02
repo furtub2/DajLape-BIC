@@ -28,6 +28,7 @@
     </q-drawer>
 
     <q-page-container>
+      <SearchBar/>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -38,6 +39,7 @@ import { ref } from 'vue';
 import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
+import SearchBar from 'src/components/SearchBar.vue'
 
 const essentialLinks: EssentialLinkProps[] = [
   {
