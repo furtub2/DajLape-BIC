@@ -1,6 +1,5 @@
 import express from 'express';
-import { createUser } from '../controlllers/adminController';
-import { createOffer } from '../controlllers/adminController';
+import { createUser, createOffer} from '../controlllers/adminController';
 //import { verifyToken, isAdmin } from '../middlewares/authMiddleware'; 
 
 const router = express.Router();
