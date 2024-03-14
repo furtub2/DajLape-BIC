@@ -1,5 +1,6 @@
 import express from 'express'
 import adminRoutes from './adminRoutes'
+import authRoutes from './authRoutes'
 
 const router = express.Router()
 // middleware
@@ -13,5 +14,7 @@ router.get('/', (req, res) => {
 })
 
 router.use('/admin', adminRoutes);
+
+router.use('/auth', authRoutes);
 
 export default router
