@@ -70,3 +70,26 @@ export const createOffer = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error creating offer', error: error.message });
   }
 };
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+
+    const users = await prisma.user.findMany()
+
+    res.status(201).json(users);
+  } catch (error: any) {
+    res.status(500).json({ message: 'Unable to get any user', error: error.message });
+  }
+};
+
+
+export const getAllOffers = async (req: Request, res: Response) => {
+  try {
+
+    const offer = await prisma.offer.findMany()
+
+    res.status(201).json(offer);
+  } catch (error: any) {
+    res.status(500).json({ message: 'Unable to get any offer', error: error.message });
+  }
+};
