@@ -93,3 +93,39 @@ export const getAllOffers = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Unable to get any offer', error: error.message });
   }
 };
+
+export const deleteSpecificOffer = async (req: Request, res: Response) => {
+  try {
+
+    const {offerId} = req.query;
+    const id = parseInt(offerId as string, 10);
+
+    const offer = await prisma.offer.delete({
+      where:{
+        id: id
+      }
+    })
+
+    res.status(201).json("Offer was successfully deleted");
+  } catch (error: any) {
+    res.status(500).json({ message: 'Unable to delete an offer', error: error.message });
+  }
+};
+
+export const deleteSpecificUser = async (req: Request, res: Response) => {
+  try {
+
+    const {userId} = req.query;
+    const id = parseInt(userId as string, 10);
+
+    const user = await prisma.user.delete({
+      where:{
+        id: id
+      }
+    })
+
+    res.status(201).json("User was successfully deleted");
+  } catch (error: any) {
+    res.status(500).json({ message: 'Unable to delete a user', error: error.message });
+  }
+};
