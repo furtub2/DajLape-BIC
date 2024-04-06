@@ -1,18 +1,24 @@
 <template>
   <q-page padding>
-    <div v-if="!isLoading">
-      <AnimalCardComponent />
+    <q-card>
+    <div class="text-h5 q-mb-lg" align="center">The main categories</div>
+    <div class="row justify-center wrap">
+      <AnimalsCategories :categories="categories"/>
     </div>
-    <div v-else>
-      <SkeletonAnimalCardComponent />
+  </q-card>
+  <q-card flat>
+    <div class="text-h5 q-my-lg" align="center">Announcements to be promoted</div>
+    <div class="row inline justify-center">
+      <ListOfAnimalsCards/>
     </div>
+  </q-card>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import AnimalCardComponent from 'components/animal-card/AnimalCardComponent.vue';
-import SkeletonAnimalCardComponent from 'src/components/animal-card/SkeletonAnimalCardComponent.vue';
+import AnimalsCategories from 'src/components/AnimalsCategories.vue'
+import ListOfAnimalsCards from 'src/components/advertisements/ListOfAnimalCards.vue'
 import { ref } from 'vue';
 
-const isLoading = ref(false);
+const categories = ref(['Dogs', 'Cats', 'Birds' ])
 </script>

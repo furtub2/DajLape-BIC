@@ -6,7 +6,7 @@
       </q-item-section>
       <q-item-section>
         <q-item-label>
-          <div class="text-h5 q-mt-sm q-mb-xs"> {{props.name}} </div>
+          <div class="text-h5 q-mt-sm q-mb-xs">Pet name</div>
         </q-item-label>
       </q-item-section>
     </q-item>
@@ -33,12 +33,7 @@
     </q-card-actions>
   </q-card>
 </template>
-<script lang="ts" setup>
-
-const props = defineProps<{
-  name:string
-}>();
-</script>
+<script lang="ts" setup></script>
 <style lang="scss" scoped>
 .my-card {
   width: 100%;
