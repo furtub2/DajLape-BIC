@@ -11,7 +11,12 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title style="cursor: pointer;" @click="() => console.log('title')"> Daj Lape </q-toolbar-title>
+        <q-toolbar-title
+          style="cursor: pointer"
+          @click="() => console.log('title')"
+        >
+          Daj Lape
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -28,7 +33,7 @@
     </q-drawer>
 
     <q-page-container>
-      <SearchBar/>
+      <SearchBar />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -39,7 +44,7 @@ import { ref } from 'vue';
 import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
-import SearchBar from 'src/components/SearchBar.vue'
+import SearchBar from 'src/components/SearchBar.vue';
 
 const essentialLinks: EssentialLinkProps[] = [
   {
