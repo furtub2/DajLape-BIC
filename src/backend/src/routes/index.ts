@@ -3,6 +3,7 @@ import adminRoutes from './adminRoutes'
 import authRoutes from './authRoutes'
 import shelterRoutes from './shelterRoutes'
 import userRoutes from './userRoutes'
+import { validateToken } from '../middlewares/authMiddleware'
 
 const router = express.Router()
 // middleware
@@ -19,8 +20,8 @@ router.use('/admin', adminRoutes);
 
 router.use('/auth', authRoutes);
 
-router.use('/shelter', shelterRoutes)
+router.use('/shelter', validateToken, shelterRoutes)
 
-router.use('/user', userRoutes)
+router.use('/user', validateToken, userRoutes)
 
 export default router
