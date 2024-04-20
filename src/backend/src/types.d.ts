@@ -1,8 +1,9 @@
-declare namespace Express {
-    export interface Request {
-        user: any;
-    }
-    export interface Response {
-        user: any;
-    }
+// Assuming UserPayload is defined elsewhere in your project, you might need to import it
+import { User } from '@prisma/client';
+import { Request } from 'express';
+
+declare module 'express-serve-static-core' {
+  export interface Request {
+    user?: User; // Optionally make it nullable with '?'
   }
+}
