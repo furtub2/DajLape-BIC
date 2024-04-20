@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-card>
+    <q-card >
       <ImageSection />
     </q-card>
     <q-card> Contact </q-card>
