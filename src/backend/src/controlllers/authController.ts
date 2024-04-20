@@ -54,24 +54,43 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-  
-    if (!email || !password) {
-      return res.status(400).send('Email and password are required');
-    }
-  
+  const { email, password } = req.body;
+
+  // Basic input validation
+  if (!email || !password) {
+    return res.status(400).send('Email and password are required');
+  }
+
+  try {
     const user = await prisma.user.findUnique({
       where: { email },
     });
-  
-    if (!user || !bcrypt.compareSync(password, user.password)) {
+
+    if (!user) {
+      return res.status(401).send('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       return res.status(401).send('Invalid email or password');
     }
-  
-    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET!, {
+
+    // Ensure the JWT_SECRET is safely loaded
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error('JWT_SECRET is not defined');
+      return res.status(500).send('Internal server error');
+    }
+
+    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, secret, {
         expiresIn: '24h',
-    });      
-  
+    });
+
     res.json({ message: 'Login successful', token });
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).send('Internal server error');
+  }
+};
   
