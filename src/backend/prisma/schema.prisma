@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  role       String     @default("USER")
+  offers     Offer[]  @relation("UserOffers")
+  favorites  Offer[]  @relation("UserFavorites")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Offer {
+  id          Int      @id @default(autoincrement())
+  image       String?
+  petName     String
+  age         Int
+  description String
+  petType     String
+  localization String
+  breeds      String
+  shelterId   Int
+  shelter     User    @relation("UserOffers", fields: [shelterId], references: [id])
+  favoritedBy User[]  @relation("UserFavorites")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
