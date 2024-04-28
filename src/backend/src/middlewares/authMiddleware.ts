@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { UserPayload } from '../types';  // Adjust the path as necessary
+import { loadConfigFromYAML } from '../config';
 
 declare global {
   namespace Express {
@@ -10,8 +11,9 @@ declare global {
   }
 }
 
+const config = loadConfigFromYAML('./config/server.yaml')
 
-const SECRET_KEY = process.env.JWT_SECRET;
+const SECRET_KEY = config.JWT_SECRET;
 if (!SECRET_KEY) {
   console.error('JWT_SECRET is not defined.');
   process.exit(1);

@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { userSchema } from '../validationSchemas';
 import { prisma } from '../database'; 
+import { loadConfigFromYAML } from '../config';
+
+const config = loadConfigFromYAML('./config/server.yaml')
 
 export const register = async (req: Request, res: Response) => {
 
@@ -55,7 +58,6 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   // Basic input validation
   if (!email || !password) {
     return res.status(400).send('Email and password are required');
@@ -75,9 +77,9 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(401).send('Invalid email or password');
     }
-
+    console.log(config.JWT_SECRET)
     // Ensure the JWT_SECRET is safely loaded
-    const secret = process.env.JWT_SECRET;
+    const secret = config.JWT_SECRET;
     if (!secret) {
       console.error('JWT_SECRET is not defined');
       return res.status(500).send('Internal server error');
