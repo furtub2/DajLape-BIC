@@ -29,14 +29,18 @@
     <q-card-actions>
       <q-btn icon="favorite" flat color="red" size="1.5em" round />
       <q-space />
-      <q-btn icon="info" flat round color="blue" size="1.5em" />
+      <q-btn icon="info" flat round color="blue" size="1.5em" @click="redirectToMoreInfo" />
     </q-card-actions>
   </q-card>
 </template>
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
 const props = defineProps<{
   name: string;
 }>();
+const router = useRouter();
+const redirectToMoreInfo = () => router.push(`/moreInfo/?name=${props.name}`) 
 </script>
 <style lang="scss" scoped>
 .my-card {
