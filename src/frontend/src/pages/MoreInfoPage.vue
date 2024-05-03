@@ -5,7 +5,7 @@
     <div class="col-7 q-gutter-sm">
       <q-card >
         <div class="text-h4 q-pa-sm">Name</div>
-      <ImageSection class="q-pa-sm"/>
+      <ImageSection class="q-pa-md"/>
     </q-card>
     <q-card>
         Description
