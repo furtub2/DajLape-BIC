@@ -1,13 +1,13 @@
 <template>
   <div class="row" style="height: 90vh;">
     <div class="col-0 col-md-6 flex justify-center content-center">
-      <img src="~assets/logo_full.png" class="responsive">
+      <q-img src="~assets/Logo_Full.png" class="q-ma-xl"/>
     </div>
     <div v-bind:class="{'justify-center': $q.screen.md || $q.screen.sm || $q.screen.xs}" class="col-12 col-md-6 flex content-center">
       <q-card v-bind:style="$q.screen.lt.sm ? {'width': '80%'} : {'width': '80%'}">
         <q-card-section>
           <q-avatar size="100px" class="absolute-center">
-            <img src="~assets/logo.svg" alt="avatar">
+            <q-img src="~assets/Logo.svg" alt="avatar"/>
           </q-avatar>
         </q-card-section>
         <q-card-section>
@@ -17,7 +17,10 @@
             </div>
           </div>
           <div>
-              <p style="text-align: center;">Login in a way that is convenient for you. If you don't have an account yet <span style="color:#f34d3d">put them on now.</span></p>
+              <p class="row inline justify-center">
+                <label>Login in a way that is convenient for you. If you don't have an account yet</label>
+                <q-btn flat color="primary" dense label="put them on now."/>
+              </p>
           </div>
             </q-card-section>
         <q-card-section>
