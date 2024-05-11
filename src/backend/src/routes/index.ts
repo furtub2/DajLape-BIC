@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     res.send('Simple Home Page - Server is working')
 })
 
-router.get('/', guestRoutes);
+router.use('', guestRoutes);
 
 router.use('/admin', adminRoutes);
 

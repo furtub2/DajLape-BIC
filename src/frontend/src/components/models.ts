@@ -1,8 +1,13 @@
-export interface Todo {
+export interface Offer {
   id: number;
-  content: string;
-}
-
-export interface Meta {
-  totalCount: number;
+  image: string;
+  petName: string;
+  age: number;
+  description: string;
+  petType: 'dog' | 'cat';
+  localization: string;
+  breeds: string;
+  shelterId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

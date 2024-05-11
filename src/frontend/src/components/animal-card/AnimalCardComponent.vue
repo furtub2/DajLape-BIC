@@ -6,7 +6,7 @@
       </q-item-section>
       <q-item-section>
         <q-item-label>
-          <div class="text-h5 q-mt-sm q-mb-xs">{{ props.name }}</div>
+          <div class="text-h5 q-mt-sm q-mb-xs">{{ offer.petName }}</div>
         </q-item-label>
       </q-item-section>
     </q-item>
@@ -21,9 +21,7 @@
 
     <q-card-section>
       <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae voluptate
-        recusandae rem pariatur aliquid, animi reiciendis sit explicabo debitis?
-        Ab reiciendis soluta culpa quos nam nihil accusamus sed, eius laborum.
+        {{ offer.description }}
       </div>
     </q-card-section>
     <q-card-actions>
@@ -35,12 +33,13 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import { Offer } from '../models';
 
 const props = defineProps<{
-  name: string;
+  offer: Offer;
 }>();
 const router = useRouter();
-const redirectToMoreInfo = () => router.push(`/moreInfo/?name=${props.name}`) 
+const redirectToMoreInfo = () => router.push(`/moreInfo/?id=${props.offer.id}`) 
 </script>
 <style lang="scss" scoped>
 .my-card {
