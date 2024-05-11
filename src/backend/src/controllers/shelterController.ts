@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 export const createOffer = async (req: Request, res: Response) => {
     try {
       const { value, error } = offerSchema.validate(req.body, { abortEarly: false });
-  
+      
       if (error) {
         return res.status(400).json({ message: 'Validation error', details: error.details });
       }

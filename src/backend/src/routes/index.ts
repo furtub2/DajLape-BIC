@@ -4,6 +4,7 @@ import authRoutes from './authRoutes'
 import shelterRoutes from './shelterRoutes'
 import userRoutes from './userRoutes'
 import { validateToken } from '../middlewares/authMiddleware'
+import guestRoutes from './guestRoutes'
 
 const router = express.Router()
 // middleware
@@ -15,6 +16,8 @@ next() })
 router.get('/', (req, res) => {
     res.send('Simple Home Page - Server is working')
 })
+
+router.get('/', guestRoutes);
 
 router.use('/admin', adminRoutes);
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import {getAllOffers, getFilteredOffers, getLastFourOffers, getSpecificOffer} from '../controlllers/userControlller';
+import {getAllOffers, getFilteredOffers, getLastFourOffers, getSpecificOffer} from '../controllers/userControlller';
 
 const router = express.Router();
 
