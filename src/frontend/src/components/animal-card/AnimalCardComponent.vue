@@ -39,7 +39,7 @@ const props = defineProps<{
   offer: Offer;
 }>();
 const router = useRouter();
-const redirectToMoreInfo = () => router.push(`/moreInfo/?id=${props.offer.id}`) 
+const redirectToMoreInfo = () => router.push(`/moreInfo/?offerId=${props.offer.id}`) 
 </script>
 <style lang="scss" scoped>
 .my-card {
