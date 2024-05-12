@@ -12,7 +12,7 @@ export const getAllOffers = async (req: Request, res: Response) => {
     }
   };
 
-  export const getSpecificOffer = async (req: Request, res: Response) => {
+export const getSpecificOffer = async (req: Request, res: Response) => {
     try {
       const { offerId } = req.query;
       const id = parseInt(offerId as string, 10);
@@ -36,3 +36,29 @@ export const getAllOffers = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Unable to get any offer', error: error.message });
     }
   };
+
+export const getShelterInfo =  async (req: Request, res: Response) => {
+  try {
+    const { shelterId } = req.query;
+    const id = parseInt(shelterId as string, 10);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid shelter ID' });
+    }
+
+    const shelter = await prisma.user.findUnique({
+      where: {
+        id: id,
+        role:'SHELTER',
+      }
+    });
+
+    if (shelter) {
+      res.status(200).json(shelter);
+    } else {
+      res.status(404).json({ message: 'Shelter not found' });
+    }
+  } catch (error: any) {
+    res.status(500).json({ message: 'Unable to get any shelter', error: error.message });
+  }
+}

@@ -12,7 +12,7 @@
       </q-card>
     </div>
     <div class="col-4 q-gutter-sm">
-      <q-card> Contact </q-card>
+      <q-card></q-card>
 
       <q-card >Shelter Info</q-card>
       <q-card>Localization: {{offer?.localization}}</q-card>
@@ -49,7 +49,8 @@ const getOffer = async () => {
 
 const getShelterInfo = async () => {
   try{
-
+    const response = await fetch(`http://localhost:5000/getShelterInfo/?shelterId=${offer.value?.shelterId}`)
+    shelter.value = await response.json()
   } catch(error){
     throw error
   }
@@ -57,4 +58,5 @@ const getShelterInfo = async () => {
 
 const returnToPreviousSite = () => router.back()
 onMounted(getOffer)
+onMounted(getShelterInfo)
 </script>
