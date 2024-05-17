@@ -25,27 +25,15 @@
       />
     </q-card-actions>
     <q-card-section>
-      <q-form class="q-gutter-md">
-        <q-input label="Username" placeholder="exsample@email.com" />
-        <q-input
-          label="Password"
-          placeholder="**************"
-          type="password"
-        />
-        <div>
-          <q-btn
-            class="full-width"
-            color="primary"
-            label="Login"
-            rounded
-          ></q-btn>
-        </div>
-      </q-form>
+      <ShelterForm v-if="selectRole === 'shelter'" />
+      <UserForm v-else />
     </q-card-section>
   </q-card>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import ShelterForm from './forms/ShelterForm.vue';
+import UserForm from './forms/UserForm.vue';
 
 const selectRole = ref('shelter');
 const roles = ref([

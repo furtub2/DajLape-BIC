@@ -11,3 +11,17 @@ export interface Offer {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface User {
+  email: string;
+  password: string;
+  role: string;
+}
+
+export interface Shelter extends User {
+  phoneNumber?: string;
+  shelterName?: string;
+  shelterDescription?: string;
+  address?: string;
+  openingHours?: string;
+  shelterImage?: string;
+}
