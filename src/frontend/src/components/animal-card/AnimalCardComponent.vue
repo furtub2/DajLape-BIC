@@ -27,7 +27,14 @@
     <q-card-actions>
       <q-btn icon="favorite" flat color="red" size="1.5em" round />
       <q-space />
-      <q-btn icon="info" flat round color="blue" size="1.5em" @click="redirectToMoreInfo" />
+      <q-btn
+        icon="info"
+        flat
+        round
+        color="blue"
+        size="1.5em"
+        @click="redirectToMoreInfo"
+      />
     </q-card-actions>
   </q-card>
 </template>
@@ -39,7 +46,8 @@ const props = defineProps<{
   offer: Offer;
 }>();
 const router = useRouter();
-const redirectToMoreInfo = () => router.push(`/moreInfo/?offerId=${props.offer.id}`) 
+const redirectToMoreInfo = () =>
+  router.push(`/moreInfo/?offerId=${props.offer.id}`);
 </script>
 <style lang="scss" scoped>
 .my-card {

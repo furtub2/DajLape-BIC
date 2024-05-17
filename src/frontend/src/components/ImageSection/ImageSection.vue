@@ -7,7 +7,6 @@
     navigation
     padding
     arrows
-
   >
     <q-carousel-slide
       :name="1"

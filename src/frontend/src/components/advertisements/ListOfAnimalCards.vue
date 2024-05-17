@@ -17,16 +17,16 @@ import { Offer } from '../models';
 const isLoading = ref(false);
 const offers = ref<Array<Offer>>();
 const getALlOffers = async () => {
-  isLoading.value = true
+  isLoading.value = true;
   try {
     const response = await fetch('http://localhost:5000/getAllOffers');
     const data = await response.json();
-    offers.value = data
-    isLoading.value = false
+    offers.value = data;
+    isLoading.value = false;
   } catch (error) {
-    isLoading.value = false
-    throw error
+    isLoading.value = false;
+    throw error;
   }
-}
-onMounted(getALlOffers)
+};
+onMounted(getALlOffers);
 </script>

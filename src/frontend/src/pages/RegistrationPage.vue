@@ -4,11 +4,11 @@
       <q-img src="~assets/Logo_Full.png" />
     </div>
     <div class="col-4 offset-1">
-      <LoginSection />
+      <RegistrationSection />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import LoginSection from 'src/components/LoginSection.vue';
+import RegistrationSection from 'src/components/RegistrationSection.vue';
 </script>
