@@ -11,6 +11,7 @@
         <q-btn label="Sign Up" flat @click="router.push('/SignUp')" />
       </div>
       <div v-if="isLoggedIn">
+        <q-btn v-if="isShelter" label="Create Offer" flat @click="redirectToCreateOffer"/>
         <q-btn  label="Logout" flat @click="logout" />
       </div>
       </q-toolbar>
@@ -31,7 +32,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const sessionStore = useSessionStore();
 
-const isLoggedIn = computed(() => sessionStore.token !== null);
+const isLoggedIn = computed(() => sessionStore.isLoggedIn);
+const isShelter = computed(() => sessionStore.isShelter)
 
 const redirectToHomePage = () => router.push('/');
 
@@ -39,6 +41,5 @@ const logout = () => {
   sessionStore.logout();
   redirectToHomePage();
 }
-
-
+const redirectToCreateOffer = () => router.push('/CreateOffer')
 </script>

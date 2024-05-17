@@ -1,9 +1,13 @@
 <template>
-  <q-form class="q-gutter-md">
+  <q-form class="q-gutter-md" @submit.prevent="onSubmit" ref="registrationForm">
     <q-input
       v-model="shelter.email"
       label="Email"
-      placeholder="exsample@email.com"
+      placeholder="example@email.com"
+      :rules="[
+        (val) => !!val || 'Email is required',
+        (val) => /.+@.+\..+/.test(val) || 'Email must be valid'
+      ]"
     />
     <q-input
       v-model="shelter.password"
@@ -32,26 +36,65 @@
       />
     </div>
   </q-form>
+  <q-notification
+    v-if="errorMessage"
+    type="negative"
+    position="top"
+    :message="errorMessage"
+    :timeout="3000"
+  />
+  <q-notification
+    v-if="successMessage"
+    type="positive"
+    position="top"
+    :message="successMessage"
+    :timeout="3000"
+  />
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Shelter } from '../models';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { handleAxiosError } from 'app/utils/errorHandler';
+import { useQuasar } from 'quasar';
 
-const confirmPassword = ref<string>();
+const $q = useQuasar();
+const router = useRouter();
+const confirmPassword = ref<string>('');
 const shelter = ref<Shelter>({ email: '', password: '', role: 'shelter' });
 
+const errorMessage = ref<string | null>(null);
+const successMessage = ref<string | null>(null);
+
 const onSubmit = async () => {
+  if (!shelter.value.email || !shelter.value.password || shelter.value.password !== confirmPassword.value) {
+    $q.notify({
+      type: 'negative',
+      message: 'Please fill out all fields correctly.'
+    });
+    return;
+  }
+
   try {
     // Wysyłanie danych do API
-    const response = await axios.post(
+    await axios.post(
       'http://localhost:5000/auth/register',
       shelter.value
     );
-    console.log('Registration successful:', response.data);
+    $q.notify({
+      type: 'positive',
+      message: 'Registration successful!'
+    });
+    errorMessage.value = null;
   } catch (error) {
-    console.error('Error during registration:', error);
-    // Tutaj można dodać logikę obsługi błędów
+    errorMessage.value = handleAxiosError(error);
+    $q.notify({
+      type: 'negative',
+      message: errorMessage.value
+    });
+    successMessage.value=null
   }
 };
 </script>

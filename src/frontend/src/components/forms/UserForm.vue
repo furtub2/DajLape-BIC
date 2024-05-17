@@ -1,9 +1,13 @@
 <template>
-  <q-form class="q-gutter-md">
+  <q-form class="q-gutter-md" @submit.prevent="onSubmit" ref="registrationForm">
     <q-input
       v-model="user.email"
       label="Email"
-      placeholder="exsample@email.com"
+      placeholder="example@email.com"
+      :rules="[
+        (val) => !!val || 'Email is required',
+        (val) => /.+@.+\..+/.test(val) || 'Email must be valid'
+      ]"
     />
     <q-input
       v-model="user.password"
@@ -29,30 +33,51 @@
         color="primary"
         label="Register"
         rounded
-        @click="onSubmit"
+        type="submit"
       />
     </div>
   </q-form>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import { User } from '../models';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
+import { handleAxiosError } from 'app/utils/errorHandler';
 
-const confirmPassword = ref<string>();
+const $q = useQuasar();
+const router = useRouter();
+const confirmPassword = ref<string>('');
 const user = ref<User>({ email: '', password: '', role: 'user' });
 
 const onSubmit = async () => {
+  if (!user.value.email || !user.value.password || user.value.password !== confirmPassword.value) {
+    $q.notify({
+      type: 'negative',
+      message: 'Please fill out all fields correctly.'
+    });
+    return;
+  }
+
   try {
     // Wysyłanie danych do API
-    const response = await axios.post(
+    await axios.post(
       'http://localhost:5000/auth/register',
       user.value
     );
-    console.log('Registration successful:', response.data);
+    $q.notify({
+      type: 'positive',
+      message: 'Registration successful!'
+    });
+    router.push('/SignIn');
   } catch (error) {
-    console.error('Error during registration:', error);
-    // Tutaj można dodać logikę obsługi błędów
+    const errorMessage = handleAxiosError(error);
+    $q.notify({
+      type: 'negative',
+      message: errorMessage
+    });
   }
 };
 </script>

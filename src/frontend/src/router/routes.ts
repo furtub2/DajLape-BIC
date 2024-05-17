@@ -1,5 +1,5 @@
-import { useSessionStore } from 'src/store/session';
-import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+
+import { RouteRecordRaw} from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
