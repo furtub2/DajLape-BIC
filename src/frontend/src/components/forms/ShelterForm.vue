@@ -36,20 +36,6 @@
       />
     </div>
   </q-form>
-  <q-notification
-    v-if="errorMessage"
-    type="negative"
-    position="top"
-    :message="errorMessage"
-    :timeout="3000"
-  />
-  <q-notification
-    v-if="successMessage"
-    type="positive"
-    position="top"
-    :message="successMessage"
-    :timeout="3000"
-  />
 </template>
 
 <script setup lang="ts">
@@ -88,6 +74,7 @@ const onSubmit = async () => {
       message: 'Registration successful!'
     });
     errorMessage.value = null;
+    router.push('/SignIn');
   } catch (error) {
     errorMessage.value = handleAxiosError(error);
     $q.notify({
