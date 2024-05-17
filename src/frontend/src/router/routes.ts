@@ -1,4 +1,5 @@
-import { RouteRecordRaw } from 'vue-router';
+import { useSessionStore } from 'src/store/session';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -17,6 +18,14 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('pages/RegistrationPage.vue') },
     ],
+  },
+  {
+    path: '/CreateOffer',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/CreateOfferPage.vue')},
+    ],
+    meta: {requiresMeta:true}
   },
   {
     path: '/moreInfo',

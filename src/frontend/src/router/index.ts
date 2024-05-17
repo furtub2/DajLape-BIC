@@ -7,6 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
+import { useSessionStore } from 'src/store/session';
 
 /*
  * If not building with SSR mode, you can
@@ -33,6 +34,18 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
+  Router.beforeEach((to, from, next) => {
+    const sessionStore = useSessionStore();
 
+    if (to.matched.some(record => record.meta.requiresMeta)) {
+      if (!sessionStore.token) {
+        next({ path: '/SignIn' });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
   return Router;
 });

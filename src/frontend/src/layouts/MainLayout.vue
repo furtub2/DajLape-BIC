@@ -6,8 +6,13 @@
           <q-icon name="img:src/assets/Logo.svg" size="xl" /> Podaj Łapę
         </q-toolbar-title>
         <q-space />
+        <div v-if="!isLoggedIn">
         <q-btn label="Sign In" flat @click="router.push('/SignIn')" />
         <q-btn label="Sign Up" flat @click="router.push('/SignUp')" />
+      </div>
+      <div v-if="isLoggedIn">
+        <q-btn  label="Logout" flat @click="logout" />
+      </div>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -19,14 +24,21 @@
 
 <script setup lang="ts">
 import SearchBar from 'src/components/SearchBar.vue';
+import { useSessionStore } from 'src/store/session';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-// const leftDrawerOpen = ref(false);
+const sessionStore = useSessionStore();
 
-// function toggleLeftDrawer() {
-//   leftDrawerOpen.value = !leftDrawerOpen.value;
-// }
+const isLoggedIn = computed(() => sessionStore.token !== null);
 
 const redirectToHomePage = () => router.push('/');
+
+const logout = () => {
+  sessionStore.logout();
+  redirectToHomePage();
+}
+
+
 </script>
