@@ -11,8 +11,8 @@
         <q-btn label="Sign Up" flat @click="router.push('/SignUp')" />
       </div>
       <div v-if="isLoggedIn">
-        <q-btn v-if="isShelter" label="Create Offer" flat @click="redirectToCreateOffer"/>
-        <q-btn  label="Logout" flat @click="logout" />
+        <q-btn dense v-if="isShelter" label="Manage Offer" flat @click="redirectToManageOffer"/>
+        <q-btn  icon='logout' dense label="Logout" flat @click="logout" />
       </div>
       </q-toolbar>
     </q-header>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import SearchBar from 'src/components/SearchBar.vue';
 import { useSessionStore } from 'src/store/session';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -41,5 +41,5 @@ const logout = () => {
   sessionStore.logout();
   redirectToHomePage();
 }
-const redirectToCreateOffer = () => router.push('/CreateOffer')
+const redirectToManageOffer = () => router.push('/ManageOffer')
 </script>

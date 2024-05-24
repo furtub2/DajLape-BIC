@@ -1,15 +1,17 @@
-export interface Offer {
-  id: number;
+export interface BaseOffer{
   image: string;
   petName: string;
-  age: number;
+  age: string;
   description: string;
   petType: 'dog' | 'cat';
   localization: string;
   breeds: string;
-  shelterId: number;
-  createdAt: Date;
-  updatedAt: Date;
+  shelterId?: string;
+}
+export interface Offer extends BaseOffer {
+  id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 export interface User {
   email: string;

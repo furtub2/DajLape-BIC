@@ -20,10 +20,10 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/CreateOffer',
+    path: '/ManageOffer',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/CreateOfferPage.vue')},
+      { path: '', component: () => import('pages/ManageOfferPage.vue')},
     ],
     meta: {requiresMeta:true}
   },

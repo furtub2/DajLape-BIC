@@ -5,28 +5,31 @@ import { jwtDecode } from 'jwt-decode';
 interface SessionState {
   token: string | null;
   role: string | null;
+  userId: string|null;
 }
 
 export const useSessionStore = defineStore('session', {
   state: (): SessionState => ({
     token: null,
     role: null,
+    userId: null,
   }),
   getters: {
     isLoggedIn: (state) => !!state.token,
     isShelter: (state) => state.role === 'SHELTER',
+    getUserId: (state) => state.userId
   },
   actions: {
     async login(email: string, password: string) {
       try {
         const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+        console.log(response)
         this.token = response.data.token;
         if (this.token) {
           const decoded: any = jwtDecode(this.token);
+          console.log(decoded)
           this.role = decoded.role; // Assuming the role is stored in the token's payload
-          localStorage.setItem('token', this.token);
-          if(this.role)
-            localStorage.setItem('role', this.role);
+          this.userId = decoded.userId;
           axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
         }
       } catch (error) {

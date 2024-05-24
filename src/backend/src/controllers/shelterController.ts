@@ -62,3 +62,22 @@ export const createOffer = async (req: Request, res: Response) => {
       res.status(500).json({ message: 'Error creating offer', error: error.message });
     }
   };
+
+  export const getShelterOffers = async (req: Request, res: Response) => {
+    console.log(req.query)
+    console.log('getShelter')
+    try {
+      const { shelterId } = req.query;
+      console.log({shelterId})
+
+      const offers = await prisma.offer.findMany({
+        where: {
+          shelterId:Number(shelterId)
+        }
+      });
+  
+      res.status(201).json(offers);
+    } catch (error: any) {
+      res.status(500).json({ message: 'Unable to get any offer', error: error.message });
+    }
+  };
