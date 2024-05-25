@@ -10,7 +10,7 @@
       <div class="col-7 q-gutter-sm">
         <q-card>
           <div class="text-h4 q-pa-sm">{{ offer?.petName }}</div>
-          <ImageSection class="q-pa-md" />
+          <ImageSection class="q-pa-md" :imageUrl="imageUrl"/>
         </q-card>
         <q-card>
           {{ offer?.description }}
@@ -40,6 +40,29 @@ const offer = ref<Offer>();
 
 const shelter = ref();
 
+const imageUrl = ref();
+
+const arrayBufferToBase64 = (buffer:Buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+};
+
+const fetchImage = async () => {
+  try {
+    if(!offer.value || !offer.value.image)
+      return
+    const buffer = await offer.value.image.data;
+    const base64Image = arrayBufferToBase64(buffer);
+    imageUrl.value = `data:image/png;base64,${base64Image}`;
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
 const getOffer = async () => {
   try {
     const { offerId } = router.currentRoute.value.query;
@@ -47,11 +70,11 @@ const getOffer = async () => {
       `http://localhost:5000/getSpecificOffer/?offerId=${offerId}`
     );
     offer.value = await response.json();
+    fetchImage(offer.value?.image)
   } catch (error) {
     throw error;
   }
 };
-
 const getShelterInfo = async () => {
   try {
     const response = await fetch(

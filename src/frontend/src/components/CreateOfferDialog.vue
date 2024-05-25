@@ -48,11 +48,9 @@
             placeholder="Enter breeds"
             :rules="[(val) => !!val || 'Breeds are required']"
           />
-          <q-input
+          <q-uploader
             label="Upload Image"
-            type="file"
-            @change="onFileChange"
-            accept="image/*"
+            @added="onFileChange"
           />
           <div class="row justify-end q-mt-md">
             <q-btn flat label="Cancel" @click="dialogVisible = false" />
@@ -72,10 +70,9 @@
 
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSessionStore } from 'src/store/session';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
+import { useSessionStore } from 'src/store/session';
 import { BaseOffer } from './models';
 import { handleAxiosError } from 'app/utils/errorHandler';
 
@@ -83,7 +80,7 @@ import { handleAxiosError } from 'app/utils/errorHandler';
 const props = defineProps<{
   isOpen: boolean,
   editMode: boolean,
-  offerData: BaseOffer | null,
+  offerData?: BaseOffer,
 }>();
 
 const emit = defineEmits(['update:isOpen', 'offerSaved']);
@@ -92,7 +89,8 @@ const dialogVisible = ref(props.isOpen);
 const $q = useQuasar();
 const sessionStore = useSessionStore();
 const offer = ref<BaseOffer>({
-  image: '',
+  imageName: '',
+  image: undefined,
   petName: '',
   age: '',
   description: '',
@@ -101,6 +99,8 @@ const offer = ref<BaseOffer>({
   breeds: '',
   shelterId: sessionStore.getUserId || undefined,
 });
+
+const selectedFile = ref<File | null>(null);
 
 watch(() => props.isOpen, (newVal) => {
   dialogVisible.value = newVal;
@@ -120,7 +120,8 @@ watch(dialogVisible, (newVal) => {
 
 const resetForm = () => {
   offer.value = {
-    image: '',
+    imageName: '',
+    image: undefined,
     petName: '',
     age: '',
     description: '',
@@ -129,30 +130,11 @@ const resetForm = () => {
     breeds: '',
     shelterId: sessionStore.getUserId || undefined,
   };
+  selectedFile.value = null;
 };
 
-const onFileChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files[0]) {
-    const file = target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      offer.value.image = file.name; // Store the image name
-      // Save the image to the frontend server
-      saveImage(file);
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
-const saveImage = async (file: File) => {
-  try {
-    const formData = new FormData();
-    formData.append('image', file);
-    await axios.post('/images', formData); // Adjust the endpoint as necessary
-  } catch (error) {
-    console.error('Error uploading image:', error);
-  }
+const onFileChange = (files:Array<File>) => {
+  selectedFile.value = files[0];
 };
 
 const onSubmit = async () => {
@@ -163,14 +145,28 @@ const onSubmit = async () => {
     if (!offer.value.shelterId) {
       throw new Error('Shelter ID not found');
     }
+    console.log(selectedFile.value)
+    const formData = new FormData();
+    if (selectedFile.value) {
+      formData.append('image', selectedFile.value);
+      formData.append('imageName', selectedFile.value.name);
+    }
+    formData.append('petName', offer.value.petName);
+    formData.append('age', offer.value.age);
+    formData.append('description', offer.value.description);
+    formData.append('petType', offer.value.petType);
+    formData.append('localization', offer.value.localization);
+    formData.append('breeds', offer.value.breeds);
+    formData.append('shelterId', offer.value.shelterId);
 
     const endpoint = props.editMode
       ? 'http://localhost:5000/shelter/updateOffer'
       : 'http://localhost:5000/shelter/createOffer';
 
-    const response = await axios.post(endpoint, offer.value, {
+    const response = await axios.post(endpoint, formData, {
       headers: {
         Authorization: `Bearer ${sessionStore.token}`,
+        'Content-Type': 'multipart/form-data',
       },
     });
     console.log('Offer saved successfully:', response.data);

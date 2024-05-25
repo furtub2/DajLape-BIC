@@ -10,24 +10,16 @@
   >
     <q-carousel-slide
       :name="1"
-      img-src="https://cdn.quasar.dev/img/mountains.jpg"
+      :img-src="imgUrl"
     />
-    <q-carousel-slide
-      :name="2"
-      img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-    />
-    <q-carousel-slide
-      :name="3"
-      img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-    />
-    <q-carousel-slide
-      :name="4"
-      img-src="https://cdn.quasar.dev/img/quasar.jpg"
-    />
+    {{ imgUrl }}
   </q-carousel>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
-
+import { computed, ref } from 'vue';
+const props = defineProps({
+  imageUrl:String
+})
+const imgUrl = computed(() => props.imageUrl)
 const slide = ref(1);
 </script>

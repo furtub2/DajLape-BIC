@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page padding>
     <q-table
       :rows="offers"
       :columns="columns"
@@ -14,9 +14,9 @@
       </template>
     </q-table>
     <div class="q-my-md">
-      <q-btn label="Add New Offer" @click="showCreateDialog = true" />
+      <q-btn icon="add"  color="primary" label="New Offer" @click="showCreateDialog = true" />
     </div>
-    <OfferDialog
+    <CreateOfferDialog
       v-model:isOpen="showCreateDialog"
       :editMode="false"
       @offerSaved="fetchOffers"

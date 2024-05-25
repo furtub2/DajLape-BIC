@@ -1,14 +1,15 @@
 import Joi from 'joi';
 
 export const offerSchema = Joi.object({
-  image: Joi.string().required(),
   petName: Joi.string().required(),
-  age: Joi.number().integer().min(0).required(),
+  age: Joi.number().required(),
   description: Joi.string().required(),
-  petType: Joi.string().valid('dog', 'cat', 'bird', 'other').required(),
+  petType: Joi.string().required(),
   localization: Joi.string().required(),
   breeds: Joi.string().required(),
-  shelterId: Joi.number().integer().required(),
+  shelterId: Joi.number().required(),
+  image: Joi.binary().optional(), 
+  imageName: Joi.string().optional(),
 });
 
 export const userSchema = Joi.object({

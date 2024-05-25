@@ -20,6 +20,7 @@ const getALlOffers = async () => {
   isLoading.value = true;
   try {
     const response = await fetch('http://localhost:5000/getAllOffers');
+    console.log({response})
     const data = await response.json();
     offers.value = data;
     isLoading.value = false;

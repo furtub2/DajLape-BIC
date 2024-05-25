@@ -25,7 +25,7 @@ import { handleAxiosError } from 'app/utils/errorHandler';
   
   const props = defineProps({
     isOpen: Boolean,
-    offerId: Number,
+    offerId: String,
   });
   
   const emit = defineEmits(['update:isOpen', 'offerDeleted']);

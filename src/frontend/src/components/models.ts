@@ -1,5 +1,6 @@
 export interface BaseOffer{
-  image: string;
+  imageName: string;
+  image?: File;
   petName: string;
   age: string;
   description: string;

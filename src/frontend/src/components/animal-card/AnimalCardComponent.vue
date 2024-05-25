@@ -12,16 +12,13 @@
     </q-item>
 
     <q-item-section height="200px" square>
-      <q-img>
-        <div class="absolute-full text-subtitle2 flex flex-center">
-          here will be photo
-        </div>
-      </q-img>
+      <q-img :src="imageUrl"/>
+      {{ props.offer.image?.name }}
     </q-item-section>
-
+    
     <q-card-section>
       <div>
-        {{ offer.description }}
+        {{ offer.description }} 
       </div>
     </q-card-section>
     <q-card-actions>
@@ -41,13 +38,40 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { Offer } from '../models';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
   offer: Offer;
 }>();
+const imageUrl = ref();
+
+const arrayBufferToBase64 = (buffer:Buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+};
+
+const fetchImage = async () => {
+  try {
+    if(!props.offer.image)
+      return
+    const buffer = await props.offer.image.data;
+    const base64Image = arrayBufferToBase64(buffer);
+    imageUrl.value = `data:image/png;base64,${base64Image}`;
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
 const router = useRouter();
 const redirectToMoreInfo = () =>
   router.push(`/moreInfo/?offerId=${props.offer.id}`);
+  onMounted(() => {
+  fetchImage();
+});
 </script>
 <style lang="scss" scoped>
 .my-card {
